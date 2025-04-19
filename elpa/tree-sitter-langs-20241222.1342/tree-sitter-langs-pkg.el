@@ -1,0 +1,11 @@
+;; -*- no-byte-compile: t; lexical-binding: nil -*-
+(define-package "tree-sitter-langs" "20241222.1342"
+  "Grammar bundle for tree-sitter."
+  '((emacs       "25.1")
+    (tree-sitter "0.15.0"))
+  :url "https://github.com/emacs-tree-sitter/tree-sitter-langs"
+  :commit "789f559e59223d14368987c482b274a0920ccdf6"
+  :revdesc "789f559e5922"
+  :keywords '("languages" "tools" "parsers" "tree-sitter")
+  :authors '(("Tuấn-Anh Nguyễn" . "ubolonton@gmail.com"))
+  :maintainers '(("Tuấn-Anh Nguyễn" . "ubolonton@gmail.com")))

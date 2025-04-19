@@ -1,0 +1,250 @@
+(if (daemonp)
+    (progn
+      (setq default-directory "/home/lopsi/")))
+
+(setq custom-file (concat user-emacs-directory "custom.el"))
+(load custom-file 'noerror)
+
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+(setq inhibit-startup-message t)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
+(menu-bar-mode -1)
+(set-fringe-mode 5)
+
+(require 'package)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			 ("org" . "https://orgmode.org/elpa/")
+			 ("elpa" . "https://elpa.gnu.org/packages/")))
+(package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+(use-package diminish)
+
+(column-number-mode)
+
+(setq display-line-numbers-type 'relative)
+(global-display-line-numbers-mode)
+(dolist (mode '(org-mode-hook
+		term-mode-hook
+		eshell-mode-hook
+		dired-mode-hook
+		eww-mode-hook
+		package-menu-mode-hook
+		help-mode-hook
+		completion-list-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+(global-set-key (kbd "C-c l") 'eval-buffer)
+(global-set-key (kbd "C-c n") 'display-line-numbers-mode)
+(global-set-key (kbd "C-c c") 'org-edit-src-code)
+(global-set-key (kbd "C-c b") 'buffer-menu)
+
+(defun load-current-org-file ()
+  "Tangle and load the current Org file."
+  (interactive)
+  (when (eq major-mode 'org-mode)
+    (org-babel-load-file (buffer-file-name))))
+(global-set-key (kbd "C-c i") 'load-current-org-file)
+
+(use-package meow
+  :custom
+  (meow-cheatsheet-physical-layout meow-cheatsheet-physical-layout-iso)
+  (meow-cheatsheet-layout meow-cheatsheet-layout-qwertz)
+
+  (meow-char-thing-table
+   '((?\( . round)
+     (?s . square)
+     (?c . curly)
+     (?a . angle)
+     (?r . string)
+     (?v . paragraph)
+     (?l . line)
+     (?x . buffer)))
+
+   :config
+   (meow-thing-register
+    'angle
+    '(pair (";") (":"))
+    '(pair (";") (":")))
+
+   (meow-leader-define-key
+    ;; Use SPC (0-9) for digit arguments.
+    '("1" . meow-digit-argument)
+    '("2" . meow-digit-argument)
+    '("3" . meow-digit-argument)
+    '("4" . meow-digit-argument)
+    '("5" . meow-digit-argument)
+    '("6" . meow-digit-argument)
+    '("7" . meow-digit-argument)
+    '("8" . meow-digit-argument)
+    '("9" . meow-digit-argument)
+    '("0" . meow-digit-argument)
+    '("-" . meow-keypad-describe-key)
+    '("_" . meow-cheatsheet))
+
+   (meow-normal-define-key
+    ;; expansion
+    '("0" . meow-expand-0)
+    '("1" . meow-expand-1)
+    '("2" . meow-expand-2)
+    '("3" . meow-expand-3)
+    '("4" . meow-expand-4)
+    '("5" . meow-expand-5)
+    '("6" . meow-expand-6)
+    '("7" . meow-expand-7)
+    '("8" . meow-expand-8)
+    '("9" . meow-expand-9)
+    '("ä" . meow-reverse)
+
+    ;; movement
+    '("l" . meow-prev)
+    '("k" . meow-next)
+    '("j" . meow-left)
+    '("ö" . meow-right)
+
+    '("D" . meow-page-down)
+    '("U" . meow-page-up)
+
+    '("z" . meow-search)
+    '("-" . meow-visit)
+
+    ;; expansion
+    '("L" . meow-prev-expand)
+    '("K" . meow-next-expand)
+    '("J" . meow-left-expand)
+    '("Ö" . meow-right-expand)
+
+    '("n" . meow-back-word)
+    '("N" . meow-back-symbol)
+    '("m" . meow-next-word)
+    '("M" . meow-next-symbol)
+
+    '("a" . meow-mark-word)
+    '("A" . meow-mark-symbol)
+    '("s" . meow-line)
+    '("S" . meow-goto-line)
+    '("w" . meow-block)
+    '("q" . meow-join)
+    '("g" . meow-grab)
+    '("G" . meow-pop-grab)
+    '("r" . meow-swap-grab)
+    '("R" . meow-sync-grab)
+    '("p" . meow-cancel-selection)
+    '("P" . meow-pop-selection)
+
+    '("u" . meow-till)
+    '("F" . meow-find)
+
+    '("(" . meow-beginning-of-thing)
+    '(")" . meow-end-of-thing)
+    '("," . meow-inner-of-thing)
+    '("." . meow-bounds-of-thing)
+
+    ;; editing
+    '("d" . meow-kill)
+    '("e" . meow-change)
+    '("f" . meow-delete)
+    '("c" . meow-save)
+    '("v" . meow-yank)
+    '("V" . meow-yank-pop)
+
+    '("i" . meow-insert)
+    '("I" . meow-open-above)
+    '("o" . meow-append)
+    '("O" . meow-open-below)
+
+    '("h" . undo-only)
+    '("H" . undo-redo)
+
+    '("b" . open-line)
+    '("B" . split-line)
+
+    '("=" . meow-indent)
+    '("ü" . indent-rigidly-left-to-tab-stop)
+    '("+" . indent-rigidly-right-to-tab-stop)
+
+    ;; misc
+    '("W" . meow-query-replace-regexp)
+
+    '("C-0" . delete-window)
+    '("C-1" . delete-other-windows)
+    '("C-2" . split-window-below)
+    '("C-3" . split-window-right)
+
+    ;; ignore
+    '("<escape>" . ignore)
+    '("<backspace>" . ignore)
+    '("<return>" . ignore)
+    '("<delete>" . ignore))
+
+   (meow-global-mode 1))
+
+(display-battery-mode 1)
+(display-time-mode 1)
+
+(defun set-reading-margins ()
+  "Set sane reading margins in current buffer."
+  (interactive)
+  (setq left-margin-width 20)
+  (setq right-margin-width 20))
+
+(use-package doom-themes
+  :custom
+  (doom-themes-enable-bold t)
+  (doom-themes-enable-italics t)
+  :custom-face
+  (font-lock-keyword-face ((t (:slant italic))))
+  :config
+  (load-theme 'doom-outrun-electric t)
+
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config))
+
+(use-package solaire-mode
+  :config
+  (solaire-global-mode 1))
+
+(use-package beacon
+  :config
+  (beacon-mode 1))
+
+(use-package tree-sitter
+  :diminish
+  :hook (sh-mode . tree-sitter-hl-mode)
+  :config
+  (global-tree-sitter-mode 1))
+
+(use-package tree-sitter-langs)
+
+(use-package highlight-defined
+  :hook emacs-lisp-mode)
+
+(use-package paren-face
+  :custom-face
+  (parenthesis ((t (:inherit 'font-lock-comment-face))))
+  :config
+  (global-paren-face-mode 1))
+
+(setq initial-major-mode 'org-mode
+      initial-scratch-message nil)
+
+(add-hook 'org-mode-hook 'set-reading-margins)
+
+(setq org-hide-emphasis-markers t)
+
+(require 'org-tempo)
+
+(use-package org-superstar
+  :custom
+  (org-superstar-leading-bullet ?\s)
+  :hook org-mode)
