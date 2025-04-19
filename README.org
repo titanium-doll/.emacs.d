@@ -6,6 +6,6 @@ this is basically lee's emacs config .,.
 
 [[file:./config.org][config.org]] is the main config file
 
-[[file:./init.el][init.el]] is responsible for converting ~config.org~ to its elisp proper [[file:./config.el][config.el]]
+[[file:./init.el][init.el]] is responsible for converting ~config.org~ to its elisp equivalent [[file:./config.el][config.el]]
 
 [[file:./custom.el][custom.el]] is for storing all custom sets
