@@ -1,6 +1,6 @@
 #+title: emacs.conf
 
-=keyboard layout, branch d02: base qwertz=
+=keyboard layout, branch d01: alternative=
 
 this is basically lee's emacs config .,.
 
