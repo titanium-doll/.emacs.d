@@ -1,4 +1,4 @@
-#+title: emacs conf
+#+title: emacs.conf
 
 =keyboard layout, branch d02: base qwertz=
 
