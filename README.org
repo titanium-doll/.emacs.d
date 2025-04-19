@@ -2,7 +2,7 @@
 
 =keyboard layout, branch d02: base qwertz=
 
-this is basically lee's (titanium-doll) emacs config .,.
+this is basically lee's emacs config .,.
 
 [[file:./config.org][config.org]] is the main config file
 
