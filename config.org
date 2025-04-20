@@ -1,5 +1,6 @@
 #+title: :3
 #+description: awawawa
+#+startup: overview
 
 * init
 #+begin_src elisp
@@ -59,17 +60,11 @@
 
 ** keys
 #+begin_src elisp
-  (global-set-key (kbd "C-c l") 'eval-buffer)
-  (global-set-key (kbd "C-c n") 'display-line-numbers-mode)
-  (global-set-key (kbd "C-c c") 'org-edit-src-code)
-  (global-set-key (kbd "C-c b") 'buffer-menu)
-
-  (defun load-current-org-file ()
-    "Tangle and load the current Org file."
-    (interactive)
-    (when (eq major-mode 'org-mode)
-      (org-babel-load-file (buffer-file-name))))
-  (global-set-key (kbd "C-c i") 'load-current-org-file)
+  (dolist (set-keys '(("C-c b" . buffer-menu)
+  		    ("C-c l" . eval-buffer)
+  		    ("C-c n" . display-line-numbers-mode)
+  		    ("C-c x" . meow-M-x)))
+    (define-key global-map (kbd (car set-keys)) (cdr set-keys)))
 #+end_src
 
 ** modal
@@ -80,134 +75,152 @@
     (meow-cheatsheet-layout meow-cheatsheet-layout-qwertz)
 
     (meow-char-thing-table
-     '((?\( . round)
-       (?s . square)
+     '((?r . round)
+       (?q . square)
        (?c . curly)
        (?a . angle)
-       (?r . string)
+       (?s . string)
        (?v . paragraph)
        (?l . line)
        (?x . buffer)))
 
-     :config
-     (meow-thing-register
-      'angle
-      '(pair (";") (":"))
-      '(pair (";") (":")))
+    :config
+    (meow-thing-register
+     'angle
+     '(pair (";") (":"))
+     '(pair (";") (":")))
 
-     (meow-leader-define-key
-      ;; Use SPC (0-9) for digit arguments.
-      '("1" . meow-digit-argument)
-      '("2" . meow-digit-argument)
-      '("3" . meow-digit-argument)
-      '("4" . meow-digit-argument)
-      '("5" . meow-digit-argument)
-      '("6" . meow-digit-argument)
-      '("7" . meow-digit-argument)
-      '("8" . meow-digit-argument)
-      '("9" . meow-digit-argument)
-      '("0" . meow-digit-argument)
-      '(";" . meow-keypad-describe-key)
-      '(":" . meow-cheatsheet))
+    (meow-leader-define-key
+     ;; Use SPC (0-9) for digit arguments.
+     '("1" . meow-digit-argument)
+     '("2" . meow-digit-argument)
+     '("3" . meow-digit-argument)
+     '("4" . meow-digit-argument)
+     '("5" . meow-digit-argument)
+     '("6" . meow-digit-argument)
+     '("7" . meow-digit-argument)
+     '("8" . meow-digit-argument)
+     '("9" . meow-digit-argument)
+     '("0" . meow-digit-argument)
+     '(";" . meow-keypad-describe-key)
+     '(":" . meow-cheatsheet)
 
-     (meow-normal-define-key
-      ;; expansion
-      '("0" . meow-expand-0)
-      '("1" . meow-expand-1)
-      '("2" . meow-expand-2)
-      '("3" . meow-expand-3)
-      '("4" . meow-expand-4)
-      '("5" . meow-expand-5)
-      '("6" . meow-expand-6)
-      '("7" . meow-expand-7)
-      '("8" . meow-expand-8)
-      '("9" . meow-expand-9)
-      '("/" . meow-reverse)
+     '("d" . dired-jump))
 
-      ;; movement
-      '("i" . meow-prev)
-      '("a" . meow-next)
-      '("s" . meow-left)
-      '("e" . meow-right)
+    (meow-normal-define-key
+     ;; expansion
+     '("0" . meow-expand-0)
+     '("1" . meow-expand-1)
+     '("2" . meow-expand-2)
+     '("3" . meow-expand-3)
+     '("4" . meow-expand-4)
+     '("5" . meow-expand-5)
+     '("6" . meow-expand-6)
+     '("7" . meow-expand-7)
+     '("8" . meow-expand-8)
+     '("9" . meow-expand-9)
+     '("/" . meow-reverse)
 
-      '("v" . meow-search)
-      '(";" . meow-visit)
+     ;; movement
+     '("i" . meow-prev)
+     '("a" . meow-next)
+     '("s" . meow-left)
+     '("e" . meow-right)
 
-      ;; expansion
-      '("I" . meow-prev-expand)
-      '("A" . meow-next-expand)
-      '("S" . meow-left-expand)
-      '("E" . meow-right-expand)
+     '("<" . meow-page-up)
+     '(">" . meow-page-down)
 
-      '("g" . meow-back-word)
-      '("G" . meow-back-symbol)
-      '("c" . meow-next-word)
-      '("C" . meow-next-symbol)
+     '("v" . meow-search)
+     '(";" . meow-visit)
 
-      '("n" . meow-mark-word)
-      '("N" . meow-mark-symbol)
-      '("l" . meow-line)
-      '("L" . meow-goto-line)
-      '("r" . meow-block)
-      '("b" . meow-join)
-      '("k" . meow-grab)
-      '("K" . meow-pop-grab)
-      '("y" . meow-swap-grab)
-      '("Y" . meow-sync-grab)
-      '("j" . meow-cancel-selection)
-      '("J" . meow-pop-selection)
+     ;; expansion
+     '("I" . meow-prev-expand)
+     '("A" . meow-next-expand)
+     '("S" . meow-left-expand)
+     '("E" . meow-right-expand)
 
-      '("w" . meow-till)
-      '("H" . meow-find)
+     '("g" . meow-back-word)
+     '("G" . meow-back-symbol)
+     '("c" . meow-next-word)
+     '("C" . meow-next-symbol)
 
-      '("(" . meow-beginning-of-thing)
-      '(")" . meow-end-of-thing)
-      '("," . meow-inner-of-thing)
-      '("." . meow-bounds-of-thing)
+     '("n" . meow-mark-word)
+     '("N" . meow-mark-symbol)
+     '("l" . meow-line)
+     '("L" . meow-goto-line)
+     '("r" . meow-block)
+     '("b" . meow-join)
+     '("k" . meow-grab)
+     '("K" . meow-pop-grab)
+     '("y" . meow-swap-grab)
+     '("Y" . meow-sync-grab)
+     '("j" . meow-cancel-selection)
+     '("J" . meow-pop-selection)
 
-      ;; editing
-      '("d" . meow-kill)
-      '("t" . meow-change)
-      '("h" . meow-delete)
-      '("p" . meow-save)
-      '("f" . meow-yank)
-      '("F" . meow-yank-pop)
+     '("w" . meow-till)
+     '("H" . meow-find)
 
-      '("o" . meow-insert)
-      '("O" . meow-open-above)
-      '("u" . meow-append)
-      '("U" . meow-open-below)
+     '("(" . meow-beginning-of-thing)
+     '(")" . meow-end-of-thing)
+     '("," . meow-inner-of-thing)
+     '("." . meow-bounds-of-thing)
 
-      '("z" . undo-only)
-      '("Z" . undo-redo)
+     ;; editing
+     '("d" . meow-kill)
+     '("t" . meow-change)
+     '("h" . meow-delete)
+     '("p" . meow-save)
+     '("f" . meow-yank)
+     '("F" . meow-yank-pop)
 
-      '("'" . open-line)
-      '("\"" . split-line)
+     '("o" . meow-insert)
+     '("O" . meow-open-above)
+     '("u" . meow-append)
+     '("U" . meow-open-below)
 
-      '("=" . meow-indent)
-      '("[" . indent-rigidly-left-to-tab-stop)
-      '("]" . indent-rigidly-right-to-tab-stop)
+     '("z" . undo-only)
+     '("Z" . undo-redo)
 
-      ;; misc
-      '("R" . meow-query-replace-regexp)
+     '("'" . open-line)
+     '("\"" . split-line)
 
-      '("C-0" . delete-window)
-      '("C-1" . delete-other-windows)
-      '("C-2" . split-window-below)
-      '("C-3" . split-window-right)
+     '("=" . meow-indent)
+     '("[" . indent-rigidly-left-to-tab-stop)
+     '("]" . indent-rigidly-right-to-tab-stop)
 
-      ;; ignore
-      '("<escape>" . ignore)
-      '("<backspace>" . ignore)
-      '("<return>" . ignore)
-      '("<delete>" . ignore))
+     ;; misc
+     '("R" . meow-query-replace-regexp)
 
-     (meow-global-mode 1))
+     '("C-0" . delete-window)
+     '("C-1" . delete-other-windows)
+     '("C-2" . split-window-below)
+     '("C-3" . split-window-right)
+
+     ;; ignore
+     '("<escape>" . ignore)
+     '("<backspace>" . ignore)
+     '("<return>" . ignore)
+     '("<delete>" . ignore))
+
+    (meow-global-mode 1))
 #+end_src
 
+** text
+#+begin_src elisp
+  (set-face-attribute 'default nil :font "JetBrains Mono Nerd Font" :height 140)
+  (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono Nerd Font" :height 140 :weight 'bold)
+  (set-face-attribute 'variable-pitch nil :font "JetBrains Mono Nerd Font" :height 140)
+#+end_src
+** compl
+#+begin_src elisp
+  (use-package vertico
+    :custom
+    (vertico-cycle t)
+    :init
+    (vertico-mode))
+#+end_src
 ** misc
 #+begin_src elisp
-  (display-battery-mode 1)
   (display-time-mode 1)
 
   (defun set-reading-margins ()
@@ -225,7 +238,12 @@
     (doom-themes-enable-bold t)
     (doom-themes-enable-italics t)
     :custom-face
-    (font-lock-keyword-face ((t (:slant italic))))
+    (font-lock-keyword-face ((nil (:slant italic))))
+    (org-document-title ((nil (:weight normal :height 1.0))))
+    (org-level-1 ((nil (:weight bold :height 1.20))))
+    (org-level-2 ((nil (:weight bold :height 1.15))))
+    (org-level-3 ((nil (:weight bold :height 1.10))))
+    (org-level-4 ((nil (:weight bold :height 1.05))))
     :config
     (load-theme 'doom-outrun-electric t)
 
@@ -277,15 +295,31 @@
 #+end_src
 
 * org
+** keys
 #+begin_src elisp
-  (add-hook 'org-mode-hook 'set-reading-margins)
+  (defun load-current-org-file ()
+    "Tangle and load the current Org file."
+    (interactive)
+    (when (eq major-mode 'org-mode)
+      (org-babel-load-file (buffer-file-name))))
 
-  (setq org-hide-emphasis-markers t)
+  (dolist (set-org '(("C-c c" . org-edit-src-code)
+  		   ("C-c i" . load-current-org-file)))
+    (define-key org-mode-map (kbd (car set-org)) (cdr set-org)))
+#+end_src
 
-  (require 'org-tempo)
-
+** pkgs
+#+begin_src elisp
   (use-package org-superstar
     :custom
+    (org-hide-emphasis-markers t)
     (org-superstar-leading-bullet ?\s)
     :hook org-mode)
+#+end_src
+
+** misc
+#+begin_src elisp
+  (add-hook 'org-mode-hook 'set-reading-margins)
+  
+  (require 'org-tempo)
 #+end_src
