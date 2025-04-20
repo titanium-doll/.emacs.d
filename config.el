@@ -237,6 +237,11 @@
 (use-package tree-sitter-langs)
 
 (use-package highlight-defined
+  :custom
+  (highlight-defined-function-name-face ((nil (:inheret tree-sitter-hl-face:function))))
+  (highlight-defined-builtin-function-name-face ((nil (:inheret tree-sitter-hl-face:function.builtin))))
+  (highlight-defined-macro-name-face ((nil (:inheret tree-sitter-hl-face:function.macro))))
+  (highlight-defined-variable-name-face ((nil (:inheret tree-sitter-hl-face:variable))))
   :hook emacs-lisp-mode)
 
 (use-package paren-face
