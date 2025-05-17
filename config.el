@@ -201,11 +201,19 @@
 
 (use-package haskell-mode)
 
+(use-package lsp-mode
+  :diminish
+  :hook (haskell-mode . lsp))
+
 (use-package vertico
   :custom
   (vertico-cycle t)
   :init
   (vertico-mode))
+
+(use-package company
+  :diminish
+  :hook (after-init-hook . global-company-mode))
 
 (display-time-mode 1)
 
@@ -233,6 +241,7 @@
   (doom-themes-org-config))
 
 (use-package solaire-mode
+  :diminish
   :config
   (solaire-global-mode 1))
 
@@ -250,10 +259,10 @@
 
 (use-package highlight-defined
   :custom
-  (highlight-defined-function-name-face ((nil (:inheret tree-sitter-hl-face:function))))
-  (highlight-defined-builtin-function-name-face ((nil (:inheret tree-sitter-hl-face:function.builtin))))
-  (highlight-defined-macro-name-face ((nil (:inheret tree-sitter-hl-face:function.macro))))
-  (highlight-defined-variable-name-face ((nil (:inheret tree-sitter-hl-face:variable))))
+  (highlight-defined-function-name-face ((nil (:inherit tree-sitter-hl-face:function))))
+  (highlight-defined-builtin-function-name-face ((nil (:inherit tree-sitter-hl-face:function.builtin))))
+  (highlight-defined-macro-name-face ((nil (:inherit tree-sitter-hl-face:function.macro))))
+  (highlight-defined-variable-name-face ((nil (:inherit tree-sitter-hl-face:variable))))
   :hook
   (emacs-lisp-mode . highlight-defined-mode)
   (org-mode . highlight-defined-mode))

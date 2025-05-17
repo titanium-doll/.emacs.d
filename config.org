@@ -225,6 +225,10 @@
 ** code
 #+begin_src elisp
   (use-package haskell-mode)
+
+  (use-package lsp-mode
+    :diminish
+    :hook (haskell-mode . lsp))
 #+end_src
 
 ** compl
@@ -234,6 +238,10 @@
     (vertico-cycle t)
     :init
     (vertico-mode))
+
+  (use-package company
+    :diminish
+    :hook (after-init-hook . global-company-mode))
 #+end_src
 
 ** misc
@@ -271,6 +279,7 @@
 ** solaire
 #+begin_src elisp
   (use-package solaire-mode
+    :diminish
     :config
     (solaire-global-mode 1))
 #+end_src
@@ -297,10 +306,10 @@
 #+begin_src elisp
   (use-package highlight-defined
     :custom
-    (highlight-defined-function-name-face ((nil (:inheret tree-sitter-hl-face:function))))
-    (highlight-defined-builtin-function-name-face ((nil (:inheret tree-sitter-hl-face:function.builtin))))
-    (highlight-defined-macro-name-face ((nil (:inheret tree-sitter-hl-face:function.macro))))
-    (highlight-defined-variable-name-face ((nil (:inheret tree-sitter-hl-face:variable))))
+    (highlight-defined-function-name-face ((nil (:inherit tree-sitter-hl-face:function))))
+    (highlight-defined-builtin-function-name-face ((nil (:inherit tree-sitter-hl-face:function.builtin))))
+    (highlight-defined-macro-name-face ((nil (:inherit tree-sitter-hl-face:function.macro))))
+    (highlight-defined-variable-name-face ((nil (:inherit tree-sitter-hl-face:variable))))
     :hook
     (emacs-lisp-mode . highlight-defined-mode)
     (org-mode . highlight-defined-mode))
@@ -344,6 +353,6 @@
 ** misc
 #+begin_src elisp
   (add-hook 'org-mode-hook 'set-reading-margins)
-  
+
   (require 'org-tempo)
 #+end_src
