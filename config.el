@@ -44,10 +44,21 @@
 		  completion-list-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-(dolist (set-keys '(("C-c b" . buffer-menu)
-		    ("C-c l" . eval-buffer)
-		    ("C-c n" . display-line-numbers-mode)
-		    ("C-c x" . meow-M-x)))
+(dolist (set-keys '(("C-c bm" . buffer-menu)
+		    ("C-c bn" . next-buffer)
+		    ("C-c bp" . previous-buffer)
+		    ("C-c d" . dired-jump)
+		    ("C-c q" . kill-buffer-and-window)
+		    ("C-c sc" . sort-columns)
+		    ("C-c sf0" . sort-fields)
+		    ("C-c sf1" . sort-regexp-fields)
+		    ("C-c sf2" . sort-numeric-fields)
+		    ("C-c sl" . sort-lines)
+		    ("C-c sp0" . sort-paragraphs)
+		    ("C-c sp1" . sort-pages)
+ 		    ("C-c l" . eval-buffer)
+ 		    ("C-c n" . display-line-numbers-mode)
+ 		    ("C-c x" . meow-M-x)))
   (define-key global-map (kbd (car set-keys)) (cdr set-keys)))
 
 (use-package meow
@@ -84,9 +95,7 @@
    '("9" . meow-digit-argument)
    '("0" . meow-digit-argument)
    '(";" . meow-keypad-describe-key)
-   '(":" . meow-cheatsheet)
-
-   '("d" . dired-jump))
+   '(":" . meow-cheatsheet))
 
   (meow-normal-define-key
    ;; expansion
@@ -185,9 +194,12 @@
 
   (meow-global-mode 1))
 
-(set-face-attribute 'default nil :font "JetBrains Mono Nerd Font" :height 140)
-(set-face-attribute 'fixed-pitch nil :font "JetBrains Mono Nerd Font" :height 140 :weight 'bold)
-(set-face-attribute 'variable-pitch nil :font "JetBrains Mono Nerd Font" :height 140)
+(set-face-attribute 'default nil :font "Maple Mono NF" :height 150)
+(set-face-attribute 'fixed-pitch nil :font "Maple Mono NF" :height 150 :weight 'bold)
+(set-face-attribute 'fixed-pitch-serif nil :font "Maple Mono NF" :height 150 :weight 'bold)
+(set-face-attribute 'variable-pitch nil :font "Maple Mono NF" :height 150)
+
+(use-package haskell-mode)
 
 (use-package vertico
   :custom
