@@ -1,6 +1,8 @@
 #+title: emacs.conf
 
 =keyboard layout, branch d01: alternative=
+#+caption: meow cheatsheet
+[[./img/meow-cheatsheet.png]]
 
 this is basically lee's emacs config .,.
 
