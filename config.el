@@ -82,6 +82,11 @@
 		    ("C-c bn"  . next-buffer)
 		    ("C-c bp"  . previous-buffer)
 		    ("C-c d"   . dired-jump)
+		    ("C-c pa"  . package-upgrade-all)
+		    ("C-c pd"  . package-delete)
+		    ("C-c pi"  . package-install)
+		    ("C-c pm"  . package-show-package-list)
+		    ("C-c pu"  . package-upgrade)
 		    ("C-c q"   . kill-buffer-and-window)
 		    ("C-c sc"  . sort-columns)
 		    ("C-c sf0" . sort-fields)
@@ -95,10 +100,25 @@
  		    ("C-c x"   . meow-M-x)))
   (define-key global-map (kbd (car set-keys)) (cdr set-keys)))
 
+(use-package avy
+  :custom
+  (avy-keys '(?n ?l ?d ?h ?r ?t ?x ?m ?p ?c ?, ?. ?o ?u ?s ?a ?i ?e)))
+
 (use-package meow
   :custom
   (meow-cheatsheet-physical-layout meow-cheatsheet-physical-layout-iso)
-  (meow-cheatsheet-layout meow-cheatsheet-layout-qwertz)
+  (meow-cheatsheet-layout '((<TLDE> "`" "~")  (<AE01> "1" "!") (<AE02> "2" "@") (<AE03> "3" "#")
+			    (<AE04> "4" "$")  (<AE05> "5" "%") (<AE06> "6" "^") (<AE07> "7" "&")
+			    (<AE08> "8" "*")  (<AE09> "9" "(") (<AE10> "0" ")") (<AE11> "-" "_")
+			    (<AE12> "=" "+")  (<AD01> "b" "B") (<AD02> "r" "R") (<AD03> "t" "T")
+			    (<AD04> "y" "Y")  (<AD05> "q" "Q") (<AD06> "v" "V") (<AD07> "w" "W")
+			    (<AD08> "o" "O")  (<AD09> "u" "U") (<AD10> "j" "J") (<AD11> "[" "{")
+			    (<AD12> "]" "}")  (<AC01> "n" "N") (<AC02> "l" "L") (<AC03> "d" "D")
+			    (<AC04> "h" "H")  (<AC05> "k" "K") (<AC06> "z" "Z") (<AC07> "s" "S")
+			    (<AC08> "a" "A")  (<AC09> "i" "I") (<AC10> "e" "E") (<AC11> "/" "?")
+			    (<AB01> "x" "X")  (<AB02> "m" "M") (<AB03> "p" "P") (<AB04> "f" "F")
+			    (<AB05> "'" "\"") (<AB06> "g" "G") (<AB07> "c" "C") (<AB08> "," "<")
+			    (<AB09> "." ">")  (<AB10> ";" ":") (<BKSL> "\\" "|")))
 
   (meow-char-thing-table
    '((?r . round)
@@ -106,8 +126,10 @@
      (?c . curly)
      (?a . angle)
      (?s . string)
-     (?v . paragraph)
+     (?m . symbol)
+     (?p . paragraph)
      (?l . line)
+     (?d . defun)
      (?x . buffer)))
 
   :config
@@ -156,6 +178,7 @@
 
    '("v" . meow-search)
    '(";" . meow-visit)
+   '("-" . negative-argument)
 
    ;; expansion
    '("I" . meow-prev-expand)
@@ -170,6 +193,7 @@
 
    '("n" . meow-mark-word)
    '("N" . meow-mark-symbol)
+   '("m" . mark-word)
    '("l" . meow-line)
    '("L" . meow-goto-line)
    '("r" . meow-block)
@@ -183,6 +207,7 @@
 
    '("w" . meow-till)
    '("H" . meow-find)
+   '("x" . avy-goto-char)
 
    '("(" . meow-beginning-of-thing)
    '(")" . meow-end-of-thing)
@@ -196,6 +221,7 @@
    '("p" . meow-save)
    '("f" . meow-yank)
    '("F" . meow-yank-pop)
+   '("R" . meow-query-replace-regexp)
 
    '("o" . meow-insert)
    '("O" . meow-open-above)
@@ -205,15 +231,12 @@
    '("z" . undo-only)
    '("Z" . undo-redo)
 
-   '("'" . open-line)
+   '("'"  . open-line)
    '("\"" . split-line)
 
    '("=" . meow-indent)
    '("[" . indent-rigidly-left-to-tab-stop)
    '("]" . indent-rigidly-right-to-tab-stop)
-
-   ;; misc
-   '("R" . meow-query-replace-regexp)
 
    '("C-0" . delete-window)
    '("C-1" . delete-other-windows)
@@ -221,10 +244,10 @@
    '("C-3" . split-window-right)
 
    ;; ignore
-   '("<escape>" . ignore)
+   '("<escape>"    . ignore)
    '("<backspace>" . ignore)
-   '("<return>" . ignore)
-   '("<delete>" . ignore))
+   '("<return>"    . ignore)
+   '("<delete>"    . ignore))
 
   (meow-global-mode 1))
 
@@ -264,6 +287,8 @@
 
 (use-package nerd-icons)
 
+(use-package ef-themes)
+
 (use-package doom-themes
   :custom
   (doom-themes-enable-bold    t)
@@ -278,10 +303,10 @@
   (org-level-4            ((nil (:weight bold   :height 1.05))))
   
   :config
-  (load-theme 'doom-outrun-electric t)
-  
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
+
+(load-theme 'doom-outrun-electric t)
 
 (use-package solaire-mode
   :config (solaire-global-mode 1))
