@@ -270,7 +270,7 @@
   (doom-themes-enable-italics t)
 
   :custom-face
-  (font-lock-keyword-face ((nil (:slant  italic))))
+  (font-lock-keyword-face ((nil (:slant italic))))
   (org-document-title     ((nil (:weight normal :height 1.0))))
   (org-level-1            ((nil (:weight bold   :height 1.20))))
   (org-level-2            ((nil (:weight bold   :height 1.15))))
