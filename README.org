@@ -11,3 +11,22 @@ this is basically lee's emacs config .,.
 [[file:./init.el][init.el]] is responsible for converting ~config.org~ to its elisp equivalent [[file:./config.el][config.el]]
 
 [[file:./custom.el][custom.el]] is for storing all custom sets
+
+* showcase
+** config
+#+caption: org config
+[[./img/config-org.png]]
+
+#+caption: elisp config
+[[./img/config-elisp.png]]
+
+** dashboard
+#+caption: dashboard
+[[./img/dashboard.png]]
+
+** compl
+#+caption: company compl
+[[./img/company-compl.png]]
+
+#+caption: M-x menu compl
+[[./img/mx-compl.png]]
