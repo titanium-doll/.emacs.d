@@ -326,7 +326,7 @@
   (setq right-margin-width 20))
 #+end_src
 
-* col
+* ui
 ** icon
 #+begin_src elisp
 (use-package nerd-icons)
