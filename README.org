@@ -12,19 +12,19 @@ this is basically lee's emacs config .,.
 
 [[file:./custom.el][custom.el]] is for storing all custom sets
 
-** showcase
-*** config
+* showcase
+** config
 #+caption: org config
 [[./img/config-org.png]]
 
 #+caption: elisp config
 [[./img/config-elisp.png]]
 
-*** dashboard
+** dashboard
 #+caption: dashboard
 [[./img/dashboard.png]]
 
-*** compl
+** compl
 #+caption: company compl
 [[./img/company-compl.png]]
 
