@@ -96,8 +96,7 @@
 		    ("C-c sp0" . sort-paragraphs)
 		    ("C-c sp1" . sort-pages)
  		    ("C-c l"   . eval-buffer)
- 		    ("C-c n"   . display-line-numbers-mode)
- 		    ("C-c x"   . meow-M-x)))
+ 		    ("C-c n"   . display-line-numbers-mode)))
   (define-key global-map (kbd (car set-keys)) (cdr set-keys)))
 
 (use-package avy
@@ -132,6 +131,7 @@
      (?d . defun)
      (?x . buffer)))
 
+  :bind ("C-c x"   . meow-M-x)
   :config
   (meow-thing-register
    'angle
